@@ -1,0 +1,92 @@
+#home {
+  background-image: url('../../assets/img/background.jpeg');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: space-around;
+  height: 100vh;
+  width: 100vw;
+
+  h1 {
+    font-size: $lg;
+    font-weight: 400;
+    text-align: center;
+    color: $off-white;
+  }
+
+  /*------------------ Auth Container ---------------*/
+  .auth-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: $lg;
+  }
+
+  .auth-container .auth-button {
+    color: #fff;
+    cursor: pointer;
+    border-radius: $button-radius;
+    padding: $normal 0;
+    text-align: center;
+    width: 45%;
+    transition: 0.3s linear all;
+  }
+
+  /*------------- Login Button ----------------------*/
+  #login-button {
+    background-color: $red;
+  }
+  #login-button:hover {
+    background-color: darken($red, 10%);
+    box-shadow: $shadow;
+  }
+
+  /*-------------- Signup Button ---------------------*/
+  #signup-button {
+    background: $blue;
+  }
+  #signup-button:hover {
+    background-color: darken($blue, 10%);
+    box-shadow: $shadow;
+  }
+
+  /*------------ Play Button ----------------------*/
+  .play-button-container {
+    width: 100%;
+  }
+
+  a.play-button {
+    background-color: $green;
+    color: #fff;
+    display: block;
+    border-radius: $button-radius;
+    cursor: pointer;
+    padding: $normal;
+    text-align: center;
+    transition: 0.3s linear all;
+  }
+
+  a.play-button:hover {
+    background-color: darken($green, 10%);
+    box-shadow: $shadow;
+  }
+
+  /*--------------------- Section -------------------*/
+  section {
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 5px;
+    padding-left: $md;
+    padding-right: $md;
+    height: 80%;
+    width: 35%;
+  }
+}
+
+/*--------------------- Media Queries ---------------------*/
+@media (max-width: 768px) {
+  #home section {
+    padding: 0 $normal;
+    width: 100%;
+    height: 100%;
+  }
+}
