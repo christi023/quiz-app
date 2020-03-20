@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
 import { Helmet } from 'react-helmet';
 
+import M from 'materialize-css';
+// import JSON file
 import questions from '../../questions.json';
+// import utils
 import isEmpty from '../../utils/is-empty';
+// import sound effects
+import correctSound from '../../assets/audio/correct-answer.mp3';
+import wrongSound from '../../assets/audio/wrong-answer.mp3';
+import buttonSound from '../../assets/audio/button-sound.mp3';
 
 export default class Play extends Component {
   constructor(props) {
@@ -14,8 +21,8 @@ export default class Play extends Component {
       previousQuestion: {},
       answer: '',
       numberOfQuestions: 0,
-      numberOfAnsweredQuestion: 0,
-      numberOfUnansweredQuestion: 0,
+      numberOfAnsweredQuestions: 0,
+      numberOfUnansweredQuestions: 0,
       currentQuestionIndex: 0,
       score: 0,
       correctAnswers: 0,
@@ -25,6 +32,11 @@ export default class Play extends Component {
       usedFiftyFifty: false,
       time: {},
     };
+
+    // binding this methods
+    this.handleOnClick = this.handleOnClick.bind(this);
+    this.buttonClick = this.buttonClick.bind(this);
+    this.displayQuestions = this.displayQuestions.bind(this);
   }
 
   //
@@ -32,6 +44,34 @@ export default class Play extends Component {
     const { questions, currentQuestion, nextQuestion, previousQuestion } = this.state;
     this.displayQuestions(questions, currentQuestion, nextQuestion, previousQuestion);
   }
+
+  // Handle Click function, check to see if user clicks on right opt
+  handleOnClick = e => {
+    if (e.target.innerHTML.toLowerCase() === this.state.answer.toLowerCase()) {
+      setTimeout(() => {
+        document.getElementById('correct-sound').play();
+      }, 500); // delaying time play method
+
+      // if target inner html is equal to answer, then correct
+      this.correctAnswer(); // call correct answer method
+    } else {
+      setTimeout(() => {
+        document.getElementById('wrong-sound').play();
+      }, 500); // delaying time for play method
+      // if wrong
+      this.wrongAnswer(); // call wrong answer method
+    }
+  };
+
+  // button click method
+  buttonClick = () => {
+    this.playButtonSound();
+  };
+
+  // play button sound
+  playButtonSound = () => {
+    document.getElementById('button-sound').play();
+  };
 
   // display questions method
   displayQuestions = (
@@ -51,16 +91,76 @@ export default class Play extends Component {
         currentQuestion,
         nextQuestion,
         previousQuestion,
+        numberOfQuestions: questions.length,
         answer,
       });
     }
   };
 
+  // when there is a correct answer, this method will display a toast
+  correctAnswer = () => {
+    M.toast({
+      html: 'Correct Answer!',
+      classes: 'toast-valid',
+      displayLength: 1500,
+    }); //update state after display, cb function arg which will have access to  prev state
+    this.setState(
+      prevState => ({
+        score: prevState.score + 1, // ans is correct to increment by 1 - new score will be prevState
+        correctAnswers: prevState.correctAnswers + 1,
+        currentQuestionIndex: prevState.currentQuestionIndex + 1,
+        numberOfAnsweredQuestions: prevState.numberOfAnsweredQuestions + 1,
+      }),
+      () => {
+        let { questions, currentQuestion, nextQuestion, previousQuestion } = this.state;
+        this.displayQuestions(
+          // passing the new state after the prevState have been updated
+          questions,
+          currentQuestion,
+          nextQuestion,
+          previousQuestion,
+        );
+      },
+    );
+  };
+
+  // wrong answer method
+  wrongAnswer = () => {
+    // this is to cause the device to vibrate eg. mobile device set to 1 second
+    navigator.vibrate(1000);
+    M.toast({
+      html: 'Wrong Answer!',
+      classes: 'toast-invalid',
+      displayLength: 1500,
+    }); //update state after display, cb function arg which will have access to  prev state
+    this.setState(
+      prevState => ({
+        wrongAnswers: prevState.wrongAnswers + 1,
+        currentQuestionIndex: prevState.currentQuestionIndex + 1,
+        numberOfAnsweredQuestions: prevState.numberOfAnsweredQuestions + 1,
+      }),
+      () => {
+        let { questions, currentQuestion, nextQuestion, previousQuestion } = this.state;
+        this.displayQuestions(
+          // passing the new state after the prevState have been updated
+          questions,
+          currentQuestion,
+          nextQuestion,
+          previousQuestion,
+        );
+      },
+    );
+  };
   render() {
-    const { currentQuestion } = this.state;
+    const { currentQuestion, currentQuestionIndex, numberOfQuestions } = this.state;
     return (
       <>
         <Helmet>Quiz Page</Helmet>
+        <>
+          <audio src={correctSound} id="correct-sound"></audio>
+          <audio src={wrongSound} id="wrong-sound"></audio>
+          <audio src={buttonSound} id="button-sound"></audio>
+        </>
         <div className="questions">
           <h2>Quiz Mode</h2>
           <div className="lifeline-container">
@@ -76,7 +176,7 @@ export default class Play extends Component {
           <div className="timer-container">
             <p>
               <span className="left" style={{ float: 'left' }}>
-                1 of 15
+                {currentQuestionIndex + 1} of {numberOfQuestions}
               </span>
               <span className="right">
                 12s
@@ -86,17 +186,25 @@ export default class Play extends Component {
           </div>
           <h5>{currentQuestion.question}</h5>
           <div className="options-container">
-            <p className="option"> {currentQuestion.optionA}</p>
-            <p className="option">{currentQuestion.optionB} </p>
+            <p onClick={this.handleOnClick} className="option">
+              {currentQuestion.optionA}
+            </p>
+            <p onClick={this.handleOnClick} className="option">
+              {currentQuestion.optionB}
+            </p>
           </div>
           <div className="options-container">
-            <p className="option">{currentQuestion.optionC} </p>
-            <p className="option">{currentQuestion.optionD}</p>
+            <p onClick={this.handleOnClick} className="option">
+              {currentQuestion.optionC}
+            </p>
+            <p onClick={this.handleOnClick} className="option">
+              {currentQuestion.optionD}
+            </p>
           </div>
           <div className="button-container">
-            <button>Previous</button>
-            <button>Next</button>
-            <button>Quit</button>
+            <button onClick={this.buttonClick}>Next</button>
+            <button onClick={this.buttonClick}>Quit</button>
+            <button onClick={this.buttonClick}>Previous</button>
           </div>
         </div>
       </>
