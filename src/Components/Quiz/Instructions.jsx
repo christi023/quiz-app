@@ -48,7 +48,7 @@ const Instructions = () => (
         <li>
           Selecting a 50-50 lifeline by clicking the icon
           <span className="mdi mdi-set-center mdi-24px lifeline-icon"></span> will remove 2 wrong
-          answers, leaving the correct answer and one wrong answer.
+          answers,leaving the correct answer and one wrong answer.
           <img src={fiftyFifty} alt="fifty-Fifty" />
         </li>
         <li>

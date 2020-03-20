@@ -36,6 +36,9 @@ export default class Play extends Component {
     // binding this methods
     this.handleOnClick = this.handleOnClick.bind(this);
     this.buttonClick = this.buttonClick.bind(this);
+    this.nextButtonClick = this.nextButtonClick.bind(this);
+    this.previousButtonClick = this.previousButtonClick.bind(this);
+    this.quitButtonClick = this.quitButtonClick.bind(this);
     this.displayQuestions = this.displayQuestions.bind(this);
   }
 
@@ -44,29 +47,6 @@ export default class Play extends Component {
     const { questions, currentQuestion, nextQuestion, previousQuestion } = this.state;
     this.displayQuestions(questions, currentQuestion, nextQuestion, previousQuestion);
   }
-
-  // Handle Click function, check to see if user clicks on right opt
-  handleOnClick = e => {
-    if (e.target.innerHTML.toLowerCase() === this.state.answer.toLowerCase()) {
-      setTimeout(() => {
-        document.getElementById('correct-sound').play();
-      }, 500); // delaying time play method
-
-      // if target inner html is equal to answer, then correct
-      this.correctAnswer(); // call correct answer method
-    } else {
-      setTimeout(() => {
-        document.getElementById('wrong-sound').play();
-      }, 500); // delaying time for play method
-      // if wrong
-      this.wrongAnswer(); // call wrong answer method
-    }
-  };
-
-  // button click method
-  buttonClick = () => {
-    this.playButtonSound();
-  };
 
   // play button sound
   playButtonSound = () => {
@@ -94,6 +74,85 @@ export default class Play extends Component {
         numberOfQuestions: questions.length,
         answer,
       });
+    }
+  };
+
+  // Handle Click function, check to see if user clicks on right opt
+  handleOnClick = e => {
+    if (e.target.innerHTML.toLowerCase() === this.state.answer.toLowerCase()) {
+      setTimeout(() => {
+        document.getElementById('correct-sound').play();
+      }, 500); // delaying time play method
+
+      // if target inner html is equal to answer, then correct
+      this.correctAnswer(); // call correct answer method
+    } else {
+      setTimeout(() => {
+        document.getElementById('wrong-sound').play();
+      }, 500); // delaying time for play method
+      // if wrong
+      this.wrongAnswer(); // call wrong answer method
+    }
+  };
+
+  // button click function
+  buttonClick = e => {
+    switch (e.target.id) {
+      case 'next-button':
+        this.nextButtonClick();
+        break;
+
+      case 'previous-button':
+        this.previousButtonClick();
+        break;
+
+      case 'quit-button':
+        this.quitButtonClick();
+        break;
+
+      default:
+        break;
+    }
+  };
+
+  // next button click function
+  nextButtonClick = () => {
+    this.playButtonSound();
+    if (this.state.nextQuestion !== undefined) {
+      this.setState(
+        prevState => ({
+          currentQuestionIndex: prevState.currentQuestionIndex + 1,
+        }),
+        () => {
+          let { state, currentQuestion, nextQuestion, previousQuestion } = this.state;
+          this.displayQuestions(state, currentQuestion, nextQuestion, previousQuestion);
+        },
+      );
+    }
+  };
+
+  // previous button click function
+  previousButtonClick = () => {
+    this.playButtonSound();
+    if (this.state.previousQuestion === undefined) {
+      this.setState(
+        prevState => ({
+          currentQuestionIndex: prevState.currentQuestionIndex - 1,
+        }),
+        () => {
+          let { state, currentQuestion, nextQuestion, previousQuestion } = this.state;
+          this.displayQuestions(state, currentQuestion, nextQuestion, previousQuestion);
+        },
+      );
+    }
+  };
+
+  // quit button click function
+  quitButtonClick = () => {
+    this.playButtonSound();
+    //window.confirm('Are you sure you want to quit?');
+    if (window.confirm('Are you sure you want to quit?')) {
+      this.props.history.push('/'); // takes us back to homepage
     }
   };
 
@@ -202,9 +261,15 @@ export default class Play extends Component {
             </p>
           </div>
           <div className="button-container">
-            <button onClick={this.buttonClick}>Next</button>
-            <button onClick={this.buttonClick}>Quit</button>
-            <button onClick={this.buttonClick}>Previous</button>
+            <button onClick={this.buttonClick} id="previous-button">
+              Previous
+            </button>
+            <button onClick={this.buttonClick} id="next-button">
+              Next
+            </button>
+            <button onClick={this.buttonClick} id="quit-button">
+              Quit
+            </button>
           </div>
         </div>
       </>

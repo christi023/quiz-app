@@ -3,16 +3,20 @@ import { Link } from 'react-router-dom';
 // component
 
 // change our page title with package
-//import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet';
 
 const Home = () => (
   <>
+    <Helmet>
+      <title>Home - Quiz App</title>
+    </Helmet>
     <div id="home">
       <section>
         <div styles={{ textAlign: 'center' }}>
-          <span></span>
+          <span className="mdi mdi-cube-outline cube"></span>
         </div>
         <h1>Quiz App</h1>
+
         <div className="play-button-container">
           <ul>
             <li>
