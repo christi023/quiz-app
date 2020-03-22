@@ -30,16 +30,19 @@ export default class Play extends Component {
       hints: 5,
       fiftyFifty: 2,
       usedFiftyFifty: false,
+      previousRandomNumbers: [],
       time: {},
     };
 
-    // binding this methods
+    // binding methods
     this.handleOnClick = this.handleOnClick.bind(this);
     this.buttonClick = this.buttonClick.bind(this);
     this.nextButtonClick = this.nextButtonClick.bind(this);
     this.previousButtonClick = this.previousButtonClick.bind(this);
     this.quitButtonClick = this.quitButtonClick.bind(this);
     this.displayQuestions = this.displayQuestions.bind(this);
+    this.handleHints = this.handleHints.bind(this);
+    this.showOptions = this.showOptions.bind(this);
   }
 
   //
@@ -67,13 +70,19 @@ export default class Play extends Component {
       nextQuestion = questions[currentQuestionIndex + 1];
       previousQuestion = questions[currentQuestion - 1];
       const answer = currentQuestion.answer;
-      this.setState({
-        currentQuestion,
-        nextQuestion,
-        previousQuestion,
-        numberOfQuestions: questions.length,
-        answer,
-      });
+      this.setState(
+        {
+          currentQuestion,
+          nextQuestion,
+          previousQuestion,
+          numberOfQuestions: questions.length,
+          answer,
+          previousRandomNumbers: [],
+        },
+        () => {
+          this.showOptions(); // this will show options when ques is changed
+        },
+      );
     }
   };
 
@@ -210,8 +219,54 @@ export default class Play extends Component {
       },
     );
   };
+
+  // Show Options for hints
+  showOptions = () => {
+    const options = Array.from(document.querySelectorAll('.option'));
+
+    options.forEach(option => {
+      option.style.visibility = 'visible';
+    });
+  };
+
+  // handleHints function
+  handleHints = () => {
+    if (this.state.hints > 0) {
+      const options = Array.from(document.querySelectorAll('.option')); // convert the node list to an array
+      let indexOfAnswer; //get index of the answer from the 4 options
+
+      options.forEach((option, index) => {
+        // looping through options with for loop
+        if (option.innerHTML.toLowerCase() === this.state.answer.toLowerCase()) {
+          indexOfAnswer = index;
+        }
+      });
+      // while look to generate random number
+      while (true) {
+        const randomNumber = Math.round(Math.random() * 3); // generate random number from 0 to 3
+        if (
+          randomNumber !== indexOfAnswer &&
+          !this.state.previousRandomNumbers.includes(randomNumber)
+        ) {
+          //if random number don't match the index of our answer, execute code below
+          options.forEach((option, index) => {
+            if (index === randomNumber) {
+              option.style.visibility = 'hidden'; // inline style
+              this.setState(prevState => ({
+                hints: prevState.hints - 1, //reduce hints from our state
+                previousRandomNumbers: prevState.previousRandomNumbers.concat(randomNumber),
+              }));
+            }
+          });
+          break;
+        }
+        if (this.state.previousRandomNumbers.length >= 3) break; // prevent an infinite loop
+      }
+    }
+  };
+
   render() {
-    const { currentQuestion, currentQuestionIndex, numberOfQuestions } = this.state;
+    const { currentQuestion, currentQuestionIndex, numberOfQuestions, hints } = this.state;
     return (
       <>
         <Helmet>Quiz Page</Helmet>
@@ -228,8 +283,11 @@ export default class Play extends Component {
               <span className="lifeline">2</span>
             </p>
             <p>
-              <span className="mdi mdi-lightbulb-on-outline mdi-24px lifeline-icon"></span>
-              <span className="lifeline">5</span>
+              <span
+                onClick={this.handleHints}
+                className="mdi mdi-lightbulb-on-outline mdi-24px lifeline-icon"
+              ></span>
+              <span className="lifeline">{hints}</span>
             </p>
           </div>
           <div className="timer-container">

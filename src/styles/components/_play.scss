@@ -80,6 +80,16 @@ body {
     top: -3px;
   }
 
+  .lifeline-icon {
+    color: $green;
+    cursor: pointer;
+  }
+
+  .lifeline-icon:hover {
+    color: darken($orange, 10%);
+    background: none;
+  }
+
   /*--------------------Options--------------------------*/
   .options-container {
     display: inline-block;
