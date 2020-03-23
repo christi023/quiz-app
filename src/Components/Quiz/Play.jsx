@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Helmet } from 'react-helmet';
+import classNames from 'classnames';
 
 import M from 'materialize-css';
 // import JSON file
@@ -30,9 +31,13 @@ export default class Play extends Component {
       hints: 5,
       fiftyFifty: 2,
       usedFiftyFifty: false,
+      nextButtonDisabled: false,
+      previousButtonDisabled: true,
       previousRandomNumbers: [],
       time: {},
     };
+    // timer set
+    this.interval = null;
 
     // binding methods
     this.handleOnClick = this.handleOnClick.bind(this);
@@ -44,12 +49,14 @@ export default class Play extends Component {
     this.handleHints = this.handleHints.bind(this);
     this.showOptions = this.showOptions.bind(this);
     this.handleFiftyFifty = this.handleFiftyFifty.bind(this);
+    this.handleDisableButton = this.handleDisableButton.bind(this);
   }
 
   //
   componentDidMount() {
     const { questions, currentQuestion, nextQuestion, previousQuestion } = this.state;
     this.displayQuestions(questions, currentQuestion, nextQuestion, previousQuestion);
+    this.startTimer();
   }
 
   // play button sound
@@ -82,6 +89,7 @@ export default class Play extends Component {
         },
         () => {
           this.showOptions(); // this will show options when ques is changed
+          this.handleDisableButton(); // check to disable buttons each time our question is rendered
         },
       );
     }
@@ -321,6 +329,69 @@ export default class Play extends Component {
     }
   };
 
+  // timer function
+  startTimer = () => {
+    const countDownTimer = Date.now() + 180000;
+    this.interval = setInterval(() => {
+      const now = new Date();
+      const distance = countDownTimer - now;
+
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      if (distance < 0) {
+        clearInterval(this.interval);
+        this.setState(
+          {
+            time: {
+              minutes: 0,
+              seconds: 0,
+            },
+          },
+          () => {
+            this.endGame();
+          },
+        );
+      } else {
+        this.setState({
+          time: {
+            minutes,
+            seconds,
+            distance,
+          },
+        });
+      }
+    }, 1000);
+  };
+
+  // Disabled button function
+  handleDisableButton = () => {
+    if (this.state.previousQuestion === !undefined || this.state.currentQuestionIndex === 0) {
+      // if true disable prev button
+      this.setState({
+        previousButtonDisabled: true,
+      });
+    } else {
+      this.setState({
+        previousButtonDisabled: false,
+      });
+    }
+
+    if (
+      this.state.nextQuestion === undefined ||
+      this.state.currentQuestionIndex + 1 === this.state.numberOfQuestions
+    ) {
+      //array(numberOfQuestions)is always 0 base + 1
+      this.setState({
+        nextButtonDisabled: true,
+      });
+    } else {
+      this.setState({
+        nextButtonDisabled: false,
+      });
+    }
+  };
+
   render() {
     const {
       currentQuestion,
@@ -328,6 +399,7 @@ export default class Play extends Component {
       numberOfQuestions,
       hints,
       fiftyFifty,
+      time,
     } = this.state;
     return (
       <>
@@ -361,7 +433,7 @@ export default class Play extends Component {
                 {currentQuestionIndex + 1} of {numberOfQuestions}
               </span>
               <span className="right">
-                12s
+                {time.minutes}:{time.seconds}
                 <span className="mdi mdi-clock-outline mdi-24px"></span>
               </span>
             </p>
@@ -384,10 +456,18 @@ export default class Play extends Component {
             </p>
           </div>
           <div className="button-container">
-            <button onClick={this.buttonClick} id="previous-button">
+            <button
+              onClick={this.buttonClick}
+              className={classNames('', { disable: this.state.previousButtonDisabled })}
+              id="previous-button"
+            >
               Previous
             </button>
-            <button onClick={this.buttonClick} id="next-button">
+            <button
+              onClick={this.buttonClick}
+              className={classNames('', { disable: this.state.nextButtonDisabled })}
+              id="next-button"
+            >
               Next
             </button>
             <button onClick={this.buttonClick} id="quit-button">
