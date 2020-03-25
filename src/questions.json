@@ -18,6 +18,15 @@
   },
 
   {
+    "question": "What guided the three wise men to find the baby Jesus?",
+    "optionA": "Compass",
+    "optionB": "Star",
+    "optionC": "Map",
+    "optionD": "Moon",
+    "answer": "Star"
+  },
+
+  {
     "question": "What did the crocodile swallow in Peter Pan?",
     "optionA": "A Book",
     "optionB": "A Computer",
@@ -33,6 +42,41 @@
     "optionC": "Goat",
     "optionD": "Lion",
     "answer": "Elephant"
+  },
+
+  {
+    "question": "What is the capital city of Spain?",
+    "optionA": "Stockholm",
+    "optionB": "Madrid",
+    "optionC": "Port-Of-Spain",
+    "optionD": "London",
+    "answer": "Madrid"
+  },
+
+  {
+    "question": "What kind of animal is a prairie dog?",
+    "optionA": "Rodent",
+    "optionB": "Insect",
+    "optionC": "Amphibian",
+    "optionD": "Fish",
+    "answer": "Rodent"
+  },
+
+  {
+    "question": "What is the name of the hobbit played by Elijah Wood in the Lord of the Rings movies?",
+    "optionA": "Sam",
+    "optionB": "Frodo",
+    "optionC": "Gollum",
+    "optionD": "Aragon",
+    "answer": "Frodo"
+  },
+  {
+    "question": "Which Tom Hanks movie won the Academy Award for Best Picture in 1994?",
+    "optionA": "Cast Away",
+    "optionB": "Captain Phillips",
+    "optionC": "Terminator",
+    "optionD": "Forrest Gump",
+    "answer": "Forrest Gump"
   },
 
   {
@@ -88,9 +132,17 @@
     "optionD": "Albert Einstein",
     "answer": "Leonardo Da Vinci"
   },
+  {
+    "question": "Name the director of the Lord of the Rings trilogy.",
+    "optionA": "Ridley Scott",
+    "optionB": "Steven Spielberg",
+    "optionC": "Peter Jackson",
+    "optionD": "Wes Craven",
+    "answer": "Peter Jackson"
+  },
 
   {
-    "question": "What’s the most important book in the Moslem religion?",
+    "question": "What’s the most important book in the Muslim religion?",
     "optionA": "The Koran",
     "optionB": "The Dictionary",
     "optionC": "The Bible",
@@ -99,12 +151,20 @@
   },
 
   {
-    "question": "What’s the capital of Ethiopia?",
-    "optionA": "Cape Town",
-    "optionB": "San Francisco",
-    "optionC": "Abuja",
-    "optionD": "Syndey",
-    "answer": "Addis Ababa"
+    "question": "Which is the fastest land animal?",
+    "optionA": "Cheetah",
+    "optionB": "Tiger",
+    "optionC": "Ostrich",
+    "optionD": "Lion",
+    "answer": "Cheetah"
+  },
+  {
+    "question": "Which planet is closest to our sun?",
+    "optionA": "Mars",
+    "optionB": "Pluto",
+    "optionC": "Mercury",
+    "optionD": "Saturn",
+    "answer": "Mercury"
   },
 
   {
@@ -126,11 +186,11 @@
   },
 
   {
-    "question": "What are the first three words of the bible?",
-    "optionA": "be with everyone",
-    "optionB": "Again Jesus asked",
-    "optionC": "In the beginning",
-    "optionD": "At that time",
-    "answer": "In the beginning"
+    "question": " If you suffer from arachnophobia, which animal are you scared of?",
+    "optionA": "Ants",
+    "optionB": "Rats",
+    "optionC": "Spiders",
+    "optionD": "Snakes",
+    "answer": "Spiders"
   }
 ]

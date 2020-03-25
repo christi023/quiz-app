@@ -17,18 +17,11 @@ const Instructions = () => (
       <h1>How to Play</h1>
       <p>Read instructions carefully</p>
       <ul className="browser-default" id="main-list">
-        <li>Each quiz have a set timer of 15 seconds to answer questions.</li>
-        <li>When the time is up for a question, that question is considered unanswered.</li>
-        <li>
-          The player has two lifelines "50/50" that removes two incorrect answers and "+10 s" that
-          gives the player ten extra seconds for the current question. Each lifeline can only be
-          used once during a game.
-        </li>
-        <li>Each game consists of 15 questions.</li>
+        <li>The game has a duration of 15 minutes and ends as soon as your time elapses.</li>
+        <li>Each game consists of 22 questions.</li>
         <li>
           Once the player has answered all questions (or run out of time) a summary is displayed
-          with the number of correct answers, the number of incorrect answers, and the number of
-          unanswered questions.
+          with the number of correct answers, the number of incorrect answers etc.
         </li>
         <li>
           Every question contains 4 options.
@@ -70,7 +63,7 @@ const Instructions = () => (
           <Link to="/">No take me back</Link>
         </span>
         <span className="right">
-          <Link to="/play/quiz">Okay, Let's do this!</Link>
+          <Link to="/play/quiz">Okay, Let's play!</Link>
         </span>
       </div>
     </div>

@@ -39,6 +39,11 @@ export default class Play extends Component {
     // timer set
     this.interval = null;
 
+    // ref let us use DOM elements in react
+    this.correctSound = React.createRef();
+    this.wrongSound = React.createRef();
+    this.buttonSound = React.createRef();
+
     // binding methods
     this.handleOnClick = this.handleOnClick.bind(this);
     this.buttonClick = this.buttonClick.bind(this);
@@ -49,20 +54,20 @@ export default class Play extends Component {
     this.handleHints = this.handleHints.bind(this);
     this.showOptions = this.showOptions.bind(this);
     this.handleFiftyFifty = this.handleFiftyFifty.bind(this);
+    this.startTimer = this.startTimer.bind(this);
     this.handleDisableButton = this.handleDisableButton.bind(this);
+    this.endGame = this.endGame.bind(this);
   }
 
-  //
   componentDidMount() {
     const { questions, currentQuestion, nextQuestion, previousQuestion } = this.state;
     this.displayQuestions(questions, currentQuestion, nextQuestion, previousQuestion);
     this.startTimer();
   }
 
-  // play button sound
-  playButtonSound = () => {
-    document.getElementById('button-sound').play();
-  };
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
 
   // display questions method
   displayQuestions = (
@@ -95,18 +100,23 @@ export default class Play extends Component {
     }
   };
 
+  // play button sound
+  playButtonSound = () => {
+    this.buttonSound.current.play();
+  };
+
   // Handle Click function, check to see if user clicks on right opt
   handleOnClick = e => {
     if (e.target.innerHTML.toLowerCase() === this.state.answer.toLowerCase()) {
       setTimeout(() => {
-        document.getElementById('correct-sound').play();
+        this.correctSound.current.play();
       }, 500); // delaying time play method
 
       // if target inner html is equal to answer, then correct
       this.correctAnswer(); // call correct answer method
     } else {
       setTimeout(() => {
-        document.getElementById('wrong-sound').play();
+        this.wrongSound.current.play();
       }, 500); // delaying time for play method
       // if wrong
       this.wrongAnswer(); // call wrong answer method
@@ -189,14 +199,18 @@ export default class Play extends Component {
         numberOfAnsweredQuestions: prevState.numberOfAnsweredQuestions + 1,
       }),
       () => {
-        let { questions, currentQuestion, nextQuestion, previousQuestion } = this.state;
-        this.displayQuestions(
-          // passing the new state after the prevState have been updated
-          questions,
-          currentQuestion,
-          nextQuestion,
-          previousQuestion,
-        );
+        if (this.state.nextQuestion === undefined) {
+          this.endGame();
+        } else {
+          let { questions, currentQuestion, nextQuestion, previousQuestion } = this.state;
+          this.displayQuestions(
+            // passing the new state after the prevState have been updated
+            questions,
+            currentQuestion,
+            nextQuestion,
+            previousQuestion,
+          );
+        }
       },
     );
   };
@@ -217,14 +231,18 @@ export default class Play extends Component {
         numberOfAnsweredQuestions: prevState.numberOfAnsweredQuestions + 1,
       }),
       () => {
-        let { questions, currentQuestion, nextQuestion, previousQuestion } = this.state;
-        this.displayQuestions(
-          // passing the new state after the prevState have been updated
-          questions,
-          currentQuestion,
-          nextQuestion,
-          previousQuestion,
-        );
+        if (this.state.nextQuestion === undefined) {
+          this.endGame();
+        } else {
+          let { questions, currentQuestion, nextQuestion, previousQuestion } = this.state;
+          this.displayQuestions(
+            // passing the new state after the prevState have been updated
+            questions,
+            currentQuestion,
+            nextQuestion,
+            previousQuestion,
+          );
+        }
       },
     );
   };
@@ -392,6 +410,25 @@ export default class Play extends Component {
     }
   };
 
+  // end game function
+  endGame = () => {
+    alert('Quiz has ended!!');
+    const { state } = this;
+    const playerStats = {
+      score: state.score,
+      numberOfQuestions: state.numberOfQuestions,
+      numberOfAnsweredQuestions: state.correctAnswers + state.wrongAnswers,
+      correctAnswers: state.correctAnswers,
+      wrongAnswers: state.wrongAnswers,
+      fiftyFiftyUsed: 2 - state.fiftyFifty,
+      hintsUsed: 5 - state.hints,
+    };
+
+    setTimeout(() => {
+      this.props.history.push('/play/quizSummary', playerStats);
+    });
+  };
+
   render() {
     const {
       currentQuestion,
@@ -405,9 +442,9 @@ export default class Play extends Component {
       <>
         <Helmet>Quiz Page</Helmet>
         <>
-          <audio src={correctSound} id="correct-sound"></audio>
-          <audio src={wrongSound} id="wrong-sound"></audio>
-          <audio src={buttonSound} id="button-sound"></audio>
+          <audio src={correctSound} ref={this.correctSound}></audio>
+          <audio src={wrongSound} ref={this.wrongSound}></audio>
+          <audio src={buttonSound} ref={this.buttonSound}></audio>
         </>
         <div className="questions">
           <h2>Quiz Mode</h2>
