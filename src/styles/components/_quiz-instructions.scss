@@ -5,11 +5,18 @@
   margin-bottom: $lg;
   padding: $sm $lg;
 
+  li,
+  p {
+    color: $white;
+  }
+
   h1 {
     color: $off-black;
-    font-size: $md;
+    font-size: $lg;
     text-align: center;
+    font-weight: bold;
   }
+
   /*----------------------- Browser ---------------- */
   .browser-default {
     padding-left: 30px;
@@ -42,6 +49,16 @@
   .right {
     font-size: $sm;
     font-weight: bold;
+  }
+
+  /*---------------- Particles --------------------- */
+  .particles {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
   }
 }
 

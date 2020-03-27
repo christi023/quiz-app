@@ -1,18 +1,41 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-// component
-
 // change our page title with package
 import { Helmet } from 'react-helmet';
+// style import
+import Particles from 'react-particles-js';
 
+const ParticleParams = {
+  particles: {
+    number: {
+      value: 50,
+      density: {
+        enable: true,
+        value_area: 800,
+      },
+      size: {
+        value: 3,
+      },
+    },
+    interactivity: {
+      events: {
+        onHover: {
+          enable: true,
+          mode: 'repulse',
+        },
+      },
+    },
+  },
+};
 const Home = () => (
   <>
     <Helmet>
       <title>Home - Quiz App</title>
     </Helmet>
     <div id="home">
+      <Particles className="particles" params={ParticleParams} />
       <section>
-        <div styles={{ textAlign: 'center' }}>
+        <div style={{ textAlign: 'center' }}>
           <span className="mdi mdi-cube-outline cube"></span>
         </div>
         <h1>Quiz App</h1>

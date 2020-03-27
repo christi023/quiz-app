@@ -1,6 +1,31 @@
 import React, { Component } from 'react';
 import Helmet from 'react-helmet';
 import { Link } from 'react-router-dom';
+// style import
+import Particles from 'react-particles-js';
+
+const ParticleParams = {
+  particles: {
+    number: {
+      value: 50,
+      density: {
+        enable: true,
+        value_area: 800,
+      },
+      size: {
+        value: 3,
+      },
+    },
+    interactivity: {
+      events: {
+        onHover: {
+          enable: true,
+          mode: 'repulse',
+        },
+      },
+    },
+  },
+};
 
 export default class QuizSummary extends Component {
   constructor(props) {
@@ -112,7 +137,11 @@ export default class QuizSummary extends Component {
         <Helmet>
           <title>Quiz App - Summary</title>
         </Helmet>
-        <div className="quiz-summary">{stats}</div>
+
+        <div className="quiz-summary">
+          {stats}
+          <Particles className="particles" params={ParticleParams} />
+        </div>
       </>
     );
   }

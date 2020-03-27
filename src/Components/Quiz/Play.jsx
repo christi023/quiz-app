@@ -11,6 +11,31 @@ import isEmpty from '../../utils/is-empty';
 import correctSound from '../../assets/audio/correct-answer.mp3';
 import wrongSound from '../../assets/audio/wrong-answer.mp3';
 import buttonSound from '../../assets/audio/button-sound.mp3';
+// style import
+import Particles from 'react-particles-js';
+
+const ParticleParams = {
+  particles: {
+    number: {
+      value: 50,
+      density: {
+        enable: true,
+        value_area: 800,
+      },
+      size: {
+        value: 3,
+      },
+    },
+    interactivity: {
+      events: {
+        onHover: {
+          enable: true,
+          mode: 'repulse',
+        },
+      },
+    },
+  },
+};
 
 export default class Play extends Component {
   constructor(props) {
@@ -447,6 +472,7 @@ export default class Play extends Component {
           <audio src={buttonSound} ref={this.buttonSound}></audio>
         </>
         <div className="questions">
+          <Particles className="particles" params={ParticleParams} />
           <h2>Quiz Mode</h2>
           <div className="lifeline-container">
             <p>
@@ -469,7 +495,12 @@ export default class Play extends Component {
               <span className="left" style={{ float: 'left' }}>
                 {currentQuestionIndex + 1} of {numberOfQuestions}
               </span>
-              <span className="right">
+              <span
+                className={classNames('right valid', {
+                  warning: time.distance <= 120000,
+                  invalid: time.distance <= 30000,
+                })}
+              >
                 {time.minutes}:{time.seconds}
                 <span className="mdi mdi-clock-outline mdi-24px"></span>
               </span>

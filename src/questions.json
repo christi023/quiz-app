@@ -10,9 +10,9 @@
 
   {
     "question": "Who wrote Julius Caesar, Macbeth and Hamlet?",
-    "optionA": "Wole Soyinka",
+    "optionA": "Mark Hamilton",
     "optionB": "William Shakespeare",
-    "optionC": "Ngozi Chimamanda Adichie",
+    "optionC": "John Humphrey",
     "optionD": "Dan Brown",
     "answer": "William Shakespeare"
   },
@@ -142,12 +142,12 @@
   },
 
   {
-    "question": "What’s the most important book in the Muslim religion?",
-    "optionA": "The Koran",
-    "optionB": "The Dictionary",
-    "optionC": "The Bible",
-    "optionD": "The Chemistry text Book",
-    "answer": "The Koran"
+    "question": " Montego Bay is on which Caribbean island?    ",
+    "optionA": "Jamaica",
+    "optionB": "St.Lucia",
+    "optionC": "Barbados",
+    "optionD": "Trinidad and Tobago",
+    "answer": "Jamaica"
   },
 
   {

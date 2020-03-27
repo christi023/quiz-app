@@ -1,5 +1,5 @@
 #home {
-  background-image: url('../../assets/img/background.jpeg');
+  /*background-image: url('../../assets/img/background.jpeg');*/
   background-size: cover;
   background-position: center;
   display: flex;
@@ -30,6 +30,12 @@
     text-align: center;
     width: 45%;
     transition: 0.3s linear all;
+  }
+
+  /*----------------- Cube ---------------------- */
+  .cube {
+    font-size: 8rem;
+    color: $orange;
   }
 
   /*------------- Login Button ----------------------*/
@@ -73,13 +79,23 @@
 
   /*--------------------- Section -------------------*/
   section {
-    background-color: rgba(0, 0, 0, 0.7);
+    /*background-color: rgba(0, 0, 0, 0.7);*/
     border-radius: 5px;
     padding-left: $md;
     padding-right: $md;
     height: 80%;
     width: 35%;
   }
+}
+
+/*---------------- Particles --------------------- */
+.particles {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
 }
 
 /*--------------------- Media Queries ---------------------*/

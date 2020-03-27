@@ -7,6 +7,31 @@ import answer from '../../assets/img/answer.png';
 import fiftyFifty from '../../assets/img/fiftyFifty.png';
 import hints from '../../assets/img/hints.png';
 import options from '../../assets/img/options.png';
+// style import
+import Particles from 'react-particles-js';
+
+const ParticleParams = {
+  particles: {
+    number: {
+      value: 50,
+      density: {
+        enable: true,
+        value_area: 800,
+      },
+      size: {
+        value: 3,
+      },
+    },
+    interactivity: {
+      events: {
+        onHover: {
+          enable: true,
+          mode: 'repulse',
+        },
+      },
+    },
+  },
+};
 
 const Instructions = () => (
   <>
@@ -14,10 +39,11 @@ const Instructions = () => (
       <title>Quiz Instructions - Quiz App</title>
     </Helmet>
     <div className="instructions container">
+      <Particles className="particles" params={ParticleParams} />
       <h1>How to Play</h1>
-      <p>Read instructions carefully</p>
+      <p>Read instructions carefully:</p>
       <ul className="browser-default" id="main-list">
-        <li>The game has a duration of 15 minutes and ends as soon as your time elapses.</li>
+        <li>The game has a duration of 3 minutes and ends as soon as your time elapses.</li>
         <li>Each game consists of 22 questions.</li>
         <li>
           Once the player has answered all questions (or run out of time) a summary is displayed
